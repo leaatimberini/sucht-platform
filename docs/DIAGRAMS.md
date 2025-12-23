@@ -9,24 +9,24 @@ Muestra cómo se despliega la aplicación en el servidor AWS EC2 y cómo interac
 ```mermaid
 graph TD
     subgraph "Internet"
-        Client_Mobile[Mobile User]
-        Client_Desktop[Desktop User]
-        Meta_Webhook[Meta Webhook]
-        MP_Webhook[MercadoPago Webhook]
+        Client_Mobile["Mobile User"]
+        Client_Desktop["Desktop User"]
+        Meta_Webhook["Meta Webhook"]
+        MP_Webhook["MercadoPago Webhook"]
     end
 
     subgraph "AWS EC2 Instance (Ubuntu)"
-        Nginx[Nginx Reverse Proxy]
+        Nginx["Nginx Reverse Proxy"]
         
         subgraph "PM2 Process Manager"
-            NodeNet[Backend: sucht-api]
-            NodeWeb[Frontend: sucht-web]
+            NodeNet["Backend: sucht-api"]
+            NodeWeb["Frontend: sucht-web"]
         end
         
-        Cron[System Cron / NestJS Scheduler]
+        Cron["System Cron / NestJS Scheduler"]
         
-        DB[(PostgreSQL Database)]
-        Redis[(Redis Cache - Optional)]
+        DB[("PostgreSQL Database")]
+        Redis[("Redis Cache - Optional")]
     end
     
     Client_Mobile -->|HTTPS / 443| Nginx
@@ -38,8 +38,8 @@ graph TD
     Nginx -->|/*| NodeWeb
     
     NodeNet -->|SQL Queries| DB
-    NodeNet -->|Events| Meta_API[Meta Conversions API]
-    NodeNet -->|Notifications| Telegram_API[Telegram Bot]
+    NodeNet -->|Events| Meta_API["Meta Conversions API"]
+    NodeNet -->|Notifications| Telegram_API["Telegram Bot"]
     
     NodeWeb -->|SSR/API Calls| NodeNet
 ```
