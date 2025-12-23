@@ -10,14 +10,14 @@ El sistema desacopla el **Backend (API)** del **Frontend (Cliente)**, permitiend
 
 ```mermaid
 graph TD
-    Client["Cliente (Web/Mobile)"] -->|HTTPS/443| Nginx["Nginx Load Balancer"]
+    Client["Cliente Web Mobile"] -->|HTTPS 443| Nginx["Nginx Load Balancer"]
     
     subgraph "Application Server"
-        Nginx -->|/api/*| NestJS["Backend API (NestJS)"]
-        Nginx -->|/*| NextJS["Frontend App (Next.js)"]
+        Nginx -->|/api/| NestJS["Backend API NestJS"]
+        Nginx -->|/| NextJS["Frontend App Next.js"]
         
-        NestJS -->|Data| DB[("PostgreSQL")]
-        NestJS -->|Cache (Optional)| Redis[("Redis Cache")]
+        NestJS -->|Data| DB["PostgreSQL"]
+        NestJS -->|Cache Optional| Redis["Redis Cache"]
     end
     
     subgraph "External Integration"

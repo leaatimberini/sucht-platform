@@ -15,7 +15,7 @@ graph TD
         MP_Webhook["MercadoPago Webhook"]
     end
 
-    subgraph "AWS EC2 Instance (Ubuntu)"
+    subgraph "AWS EC2 Instance Ubuntu"
         Nginx["Nginx Reverse Proxy"]
         
         subgraph "PM2 Process Manager"
@@ -23,25 +23,25 @@ graph TD
             NodeWeb["Frontend: sucht-web"]
         end
         
-        Cron["System Cron / NestJS Scheduler"]
+        Cron["System Cron NestJS Scheduler"]
         
-        DB[("PostgreSQL Database")]
-        Redis[("Redis Cache - Optional")]
+        DB["PostgreSQL Database"]
+        Redis["Redis Cache Optional"]
     end
     
-    Client_Mobile -->|HTTPS / 443| Nginx
-    Client_Desktop -->|HTTPS / 443| Nginx
-    Meta_Webhook -->|POST /marketing/webhook| Nginx
-    MP_Webhook -->|POST /payments/webhook| Nginx
+    Client_Mobile -->|HTTPS 443| Nginx
+    Client_Desktop -->|HTTPS 443| Nginx
+    Meta_Webhook -->|POST marketing webhook| Nginx
+    MP_Webhook -->|POST payments webhook| Nginx
     
-    Nginx -->|/api/*| NodeNet
-    Nginx -->|/*| NodeWeb
+    Nginx -->|/api/| NodeNet
+    Nginx -->|/| NodeWeb
     
     NodeNet -->|SQL Queries| DB
     NodeNet -->|Events| Meta_API["Meta Conversions API"]
     NodeNet -->|Notifications| Telegram_API["Telegram Bot"]
     
-    NodeWeb -->|SSR/API Calls| NodeNet
+    NodeWeb -->|SSR API Calls| NodeNet
 ```
 
 ---
