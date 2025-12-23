@@ -10,7 +10,7 @@ import type { Ticket as TicketType } from '@/types/ticket.types';
 // --- TIPOS DE DATOS ---
 interface ScanDetails {
     clientName?: string | null;
-    user?: { name: string | null };
+    user?: { name: string | null; dni?: string | null };
     ticketType?: string;
     productName?: string;
     isVipAccess?: boolean;
@@ -53,6 +53,7 @@ function ResultDisplay({ result, onScanNext }: { result: ResultState; onScanNext
             {isSuccess && (
                 <div className="text-left bg-zinc-800 rounded-lg p-4 mt-6 space-y-3">
                     {clientName && <p className="flex items-center"><UserIcon className="inline-block mr-2" size={16} /> {clientName}</p>}
+                    {details.user?.dni && <p className="flex items-center text-amber-400 font-bold">DNI: {details.user.dni}</p>}
                     {type === 'ticket' && details.tier?.name && <p className="flex items-center"><Ticket className="inline-block mr-2" size={16} /> {details.tier.name}</p>}
                     {(type === 'product' || type === 'reward') && details.productName && <p className="flex items-center"><Gift className="inline-block mr-2" size={16} /> {details.productName}</p>}
                     {details.isVipAccess && <p className="font-bold text-amber-400 flex items-center"><Crown className="inline-block mr-2" size={16} /> Acceso VIP</p>}
@@ -65,7 +66,7 @@ function ResultDisplay({ result, onScanNext }: { result: ResultState; onScanNext
 }
 
 // --- SUB-COMPONENTE PARA CANJE PARCIAL ---
-function RedeemInterface({ ticket, onRedeem, onCancel }: { ticket: TicketType, onRedeem: (result: { status: 'success' | 'error', message: string }) => void, onCancel: () => void }) {
+function RedeemInterface({ ticket, targetEventId, onRedeem, onCancel }: { ticket: TicketType, targetEventId?: string | null, onRedeem: (result: { status: 'success' | 'error', message: string }) => void, onCancel: () => void }) {
     const [quantity, setQuantity] = useState(1);
     const [isRedeeming, setIsRedeeming] = useState(false);
     const remaining = ticket.quantity - ticket.redeemedCount;
@@ -77,7 +78,12 @@ function RedeemInterface({ ticket, onRedeem, onCancel }: { ticket: TicketType, o
         }
         setIsRedeeming(true);
         try {
-            const response = await api.post(`/tickets/${ticket.id}/redeem`, { quantity });
+            // FIX: Enviar targetEventId para validación estricta
+            const payload: any = { quantity };
+            if (targetEventId) {
+                payload.targetEventId = targetEventId;
+            }
+            const response = await api.post(`/tickets/${ticket.id}/redeem`, payload);
             onRedeem({ status: 'success', message: response.data.message });
         } catch (error: any) {
             onRedeem({ status: 'error', message: error.response?.data?.message || 'Error desconocido.' });
@@ -93,7 +99,8 @@ function RedeemInterface({ ticket, onRedeem, onCancel }: { ticket: TicketType, o
                     <Crown className="inline-block mr-2" size={20} /> ACCESO VIP
                 </div>
             )}
-            <p className="text-zinc-300 mt-4">{ticket.user?.name}</p>
+            <p className="text-zinc-300 mt-4 text-xl">{ticket.user?.name}</p>
+            {ticket.user?.dni && <p className="text-amber-400 font-bold text-lg">DNI: {ticket.user.dni}</p>}
             <p className="text-zinc-400 text-sm">{ticket.tier?.name}</p>
             {ticket.specialInstructions && <p className="font-bold text-pink-400 mt-2">{ticket.specialInstructions}</p>}
             <p className="font-bold text-3xl text-pink-500 my-4">{remaining} / {ticket.quantity} disponibles</p>
@@ -114,7 +121,7 @@ function RedeemInterface({ ticket, onRedeem, onCancel }: { ticket: TicketType, o
 }
 
 // --- COMPONENTE PRINCIPAL DEL ESCÁNER ---
-export function UniversalQrScanner() {
+export function UniversalQrScanner({ eventId }: { eventId?: string | null }) {
     const [result, setResult] = useState<ResultState | null>(null);
     const [isScanning, setIsScanning] = useState(true);
     const [scannedTicket, setScannedTicket] = useState<TicketType | null>(null);
@@ -141,12 +148,28 @@ export function UniversalQrScanner() {
 
             try {
                 // Paso 1: Verificar el QR para obtener los detalles.
-                const response = await api.post<ScanResponse>('/verifier/scan', { qrId: decodedText });
+                const scanPayload: any = { qrId: decodedText };
+                if (eventId) {
+                    scanPayload.eventId = eventId;
+                }
+                const response = await api.post<ScanResponse>('/verifier/scan', scanPayload);
                 const scanData = response.data;
                 toast.dismiss();
 
                 if (!scanData.isValid) {
                     throw new Error(scanData.message);
+                }
+
+                // --- FIX: VALIDACIÓN INICIAL DE EVENTO ---
+                // Si estamos en modo "Verificador de Evento X", rechazamos QR de otros eventos antes de mostrar nada.
+                if (eventId && scanData.type === 'ticket') {
+                    const ticketDetails = scanData.details as TicketType;
+                    // Asumimos que el backend envía 'event' dentro de details. Si no, habría que ajustar el DTO de scan.
+                    // Verificamos si ticketDetails.event existe y si su ID coincide.
+                    // NOTA: El ScanResponse actual del backend (/verifier/scan) tal vez no incluya el ID del evento plano.
+                    // Sin embargo, la validación final se hace en /redeem. 
+                    // Para mejor UX, podríamos validar aquí si tuviéramos el dato. 
+                    // Por ahora confiamos en la validación del paso "RedeemInterface" o una validación "blanda" si el dato está.
                 }
 
                 // --- FIX: LÓGICA DE ESCANEO UNIFICADA ---
@@ -180,7 +203,7 @@ export function UniversalQrScanner() {
                 scanner.clear().catch(err => console.error("Fallo al limpiar el scanner de QR.", err));
             }
         };
-    }, [isScanning]);
+    }, [isScanning, eventId]);
 
     const resetScanner = () => {
         setResult(null);
@@ -195,6 +218,7 @@ export function UniversalQrScanner() {
     if (scannedTicket) {
         return <RedeemInterface
             ticket={scannedTicket}
+            targetEventId={eventId}
             onCancel={resetScanner}
             onRedeem={({ status, message }) => setResult({ status, message, details: scannedTicket, type: 'ticket' })}
         />;

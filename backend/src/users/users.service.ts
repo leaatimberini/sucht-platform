@@ -674,6 +674,16 @@ export class UsersService {
         user.googleReviewStatus = GoogleReviewStatus.REJECTED;
         await this.usersRepository.save(user);
     }
+
+    async updateDni(userId: string, dni: string): Promise<User> {
+        const user = await this.findOneById(userId);
+        user.dni = dni;
+        return this.usersRepository.save(user);
+    }
+
+    async findByDni(dni: string): Promise<User | null> {
+        return this.usersRepository.findOne({ where: { dni } });
+    }
 }
 
 const formatDateToInput = (date?: Date | string | null): string => {

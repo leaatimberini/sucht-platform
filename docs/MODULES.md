@@ -78,6 +78,20 @@ El backend de **SUCHT** está organizado en módulos funcionales bajo la filosof
     *   Suma puntos por asistencia, referidos o compras.
     *   Historial transaccional inmutable.
 
+### `BirthdayModule`
+*   **Responsabilidad:** Gestión del beneficio de cumpleaños.
+*   **Características:**
+    *   Detección de elegibilidad (cumpleaños dentro de 14 días del evento).
+    *   Emisión de tickets y premios (Classic/VIP).
+    *   Validación de DNI único para prevención de fraude.
+
+### `VerifierModule`
+*   **Responsabilidad:** Escaneo y validación unificado de QRs.
+*   **Características:**
+    *   Identifica automáticamente el tipo de QR (Ticket, Producto, Premio).
+    *   Auto-Validación de Ingreso al consumir en barra.
+    *   Muestra DNI del cliente para verificación física.
+
 ---
 
 ## 4. Módulos de Inteligencia (Advanced)

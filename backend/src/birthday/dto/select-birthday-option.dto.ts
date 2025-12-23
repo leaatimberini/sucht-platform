@@ -1,4 +1,4 @@
-import { IsEnum, IsInt, IsNotEmpty, IsOptional, Max, Min } from 'class-validator';
+import { IsEnum, IsInt, IsNotEmpty, IsOptional, Max, Min, IsUUID } from 'class-validator';
 
 export enum BirthdayOption {
   CLASSIC = 'classic',
@@ -13,6 +13,13 @@ export class SelectBirthdayOptionDto {
   @IsOptional()
   @IsInt()
   @Min(0)
-  @Max(10) // Límite máximo de invitados, puedes ajustarlo
+  @Max(50) // Aumentado límite a 50
   guestLimit?: number;
+
+  @IsNotEmpty()
+  dni: string;
+
+  @IsOptional()
+  @IsUUID()
+  eventId?: string;
 }

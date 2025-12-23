@@ -5,13 +5,17 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { User, UserRole } from '../users/user.entity';
-import { IsNotEmpty, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsUUID, IsOptional } from 'class-validator';
 
 // DTO para validar el ID del QR que llega desde el frontend
 class ScanQrDto {
-    @IsNotEmpty()
-    @IsUUID('4')
-    qrId: string;
+  @IsNotEmpty()
+  @IsUUID('4')
+  qrId: string;
+
+  @IsOptional()
+  @IsUUID('4')
+  eventId?: string; // Opcional, contexto del evento actual
 }
 
 @Controller('verifier')
@@ -19,7 +23,7 @@ class ScanQrDto {
 // Protegemos todo el controlador para los roles que pueden escanear
 @Roles(UserRole.VERIFIER, UserRole.BARRA, UserRole.ADMIN, UserRole.OWNER)
 export class VerifierController {
-  constructor(private readonly verifierService: VerifierService) {}
+  constructor(private readonly verifierService: VerifierService) { }
 
   /**
    * Endpoint unificado para escanear cualquier tipo de QR (Tickets o Productos).
@@ -31,6 +35,6 @@ export class VerifierController {
     @Body() scanQrDto: ScanQrDto,
   ) {
     const user = req.user;
-    return this.verifierService.scanQr(scanQrDto.qrId, user);
+    return this.verifierService.scanQr(scanQrDto.qrId, user, scanQrDto.eventId);
   }
 }

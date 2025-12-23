@@ -8,7 +8,7 @@ import { LoyaltyProgressBar, UserProfile } from '@/components/LoyaltyProgressBar
 import { useAuthStore } from '@/stores/auth-store';
 import api from '@/lib/axios';
 import { type Event } from '@/types/event.types';
-import { Award, Gift, Instagram, Loader, MessageSquare, ShoppingCart } from 'lucide-react';
+import { Award, Gift, Instagram, Loader, MessageSquare, ShoppingCart, Ticket } from 'lucide-react';
 import { PartnersBanner } from '@/components/PartnersBanner';
 
 export default function HomePage() {
@@ -79,8 +79,12 @@ export default function HomePage() {
               <p className="text-zinc-300 text-lg mt-2 mb-8">Bienvenido de nuevo.</p>
               <div className="max-w-xl mx-auto">
                 <LoyaltyProgressBar user={profile} />
-                <div className="text-center mt-6">
-                  <Link href="/mi-cuenta/premios" className="inline-flex items-center gap-2 bg-pink-600 hover:bg-pink-700 font-bold py-3 px-6 rounded-lg transition-colors">
+                <div className="text-center mt-6 flex flex-col gap-4 justify-center items-center">
+                  <Link href="/mi-cuenta/entradas" className="w-full max-w-xs inline-flex items-center justify-center gap-2 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105 shadow-lg shadow-pink-500/20">
+                    <Ticket size={18} />
+                    Ver Mis Entradas
+                  </Link>
+                  <Link href="/mi-cuenta/premios" className="w-full max-w-xs inline-flex items-center justify-center gap-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-bold py-3 px-6 rounded-lg transition-colors border border-zinc-700">
                     <Award size={18} />
                     Ver Premios para Canjear
                   </Link>

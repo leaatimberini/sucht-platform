@@ -345,9 +345,14 @@ export class TicketsService {
     return (result.affected ?? 0) > 0;
   }
 
-  async redeemTicket(id: string, quantityToRedeem: number): Promise<any> {
+  async redeemTicket(id: string, quantityToRedeem: number, targetEventId?: string): Promise<any> {
     const ticket = await this.ticketsRepository.findOne({ where: { id }, relations: ['user', 'event', 'tier', 'promoter'] });
     if (!ticket) { throw new NotFoundException('Ticket not found.'); }
+
+    // Validación Estricta de Evento
+    if (targetEventId && ticket.event.id !== targetEventId) {
+      throw new BadRequestException(`Este QR corresponde al evento "${ticket.event.title}", no al evento seleccionado.`);
+    }
 
     const now = new TZDate(new Date(), this.timeZone);
     const shouldAwardPoints = ticket.redeemedCount === 0;

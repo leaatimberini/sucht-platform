@@ -29,3 +29,18 @@ El sistema trabaja en segundo plano para optimizar la rentabilidad.
 
 *   **Tracking Avanzado:** Cada compra envía señales al algoritmo de Meta Ads para mejorar el ROAS (Retorno de Inversión Publicitaria).
 *   **Reportes Automáticos:** El dueño recibe alertas en Telegram sobre tendencias y perfiles de audiencia detectados por la IA.
+
+## 5. Beneficio de Cumpleaños (Birthday Benefit)
+Sistema de incentivo para usuarios que cumplen años cerca de la fecha del evento.
+
+*   **Selección de Evento:** El usuario puede elegir entre múltiples eventos disponibles en una ventana de 14 días alrededor de su cumpleaños.
+*   **Opciones:**
+    *   **Clásico:** Ingreso gratuito + Lista de hasta 50 invitados.
+    *   **VIP:** Ingreso VIP con premio adicional (ej. champagne).
+*   **Anti-Fraude (DNI):** Se requiere DNI obligatorio al reclamar. El DNI se almacena en el perfil y se muestra al personal de ingreso/barra al escanear el QR, permitiendo validar identidad físicamente.
+
+## 6. Auto-Validación de Ingreso (Smart Check-In)
+Mejora de estadísticas y control de acceso.
+
+*   **Mecánica:** Si un usuario consume algo en la barra (valida un producto o premio con QR) y su entrada de ingreso aún no está validada, el sistema la valida automáticamente.
+*   **Beneficio:** Estadísticas de asistencia precisas, sin importar si el control de puerta validó la entrada o no.

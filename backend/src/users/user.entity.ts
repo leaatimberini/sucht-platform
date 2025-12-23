@@ -39,6 +39,9 @@ export class User {
   @Column({ type: 'varchar', nullable: true })
   name: string | null;
 
+  @Column({ type: 'varchar', unique: true, nullable: true })
+  dni: string | null;
+
   @Column({ select: false, nullable: true })
   password?: string;
 

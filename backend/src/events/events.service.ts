@@ -162,6 +162,16 @@ export class EventsService {
     });
   }
 
+  async findEventsBetweenDates(start: Date, end: Date): Promise<Event[]> {
+    return this.eventsRepository.find({
+      where: {
+        startDate: Between(start, end),
+        isPublished: true
+      },
+      order: { startDate: 'ASC' }
+    });
+  }
+
   async generateDescription(eventId: string, context?: string): Promise<{ description: string }> {
     const event = await this.findOne(eventId);
 

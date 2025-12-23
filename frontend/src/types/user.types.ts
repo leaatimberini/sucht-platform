@@ -20,6 +20,7 @@ export interface User {
   profileImageUrl: string | null;
   instagramHandle: string | null;
   whatsappNumber: string | null;
+  dni?: string | null;
   dateOfBirth: Date | string | null;
   createdAt: Date | string;
   updatedAt: Date | string;

@@ -11,7 +11,7 @@ import { BadRequestException } from '@nestjs/common';
 @Controller('birthday')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class BirthdayController {
-  constructor(private readonly birthdayService: BirthdayService) {}
+  constructor(private readonly birthdayService: BirthdayService) { }
 
   /**
    * Endpoint principal para que el cliente elija y reclame su beneficio de cumpleaños.
@@ -22,17 +22,17 @@ export class BirthdayController {
     @Req() req: { user: User },
     @Body() selectBirthdayOptionDto: SelectBirthdayOptionDto,
   ) {
-    const { choice, guestLimit } = selectBirthdayOptionDto;
+    const { choice, guestLimit, eventId } = selectBirthdayOptionDto;
 
     if (choice === BirthdayOption.CLASSIC) {
       if (typeof guestLimit !== 'number') {
         throw new BadRequestException('Se requiere el número de invitados para la opción clásica.');
       }
-      return this.birthdayService.claimClassicBenefit(req.user, guestLimit);
+      return this.birthdayService.claimClassicBenefit(req.user, guestLimit, eventId);
     }
-    
+
     if (choice === BirthdayOption.VIP) {
-      return this.birthdayService.claimVipBenefit(req.user);
+      return this.birthdayService.claimVipBenefit(req.user, eventId);
     }
   }
 

@@ -39,7 +39,7 @@ export default function VerifierPage() {
 
             <div className="mt-6">
               {/* 2. Reemplazar el antiguo QrScanner por el nuevo UniversalQrScanner */}
-              {activeTab === 'scanner' && <UniversalQrScanner />}
+              {activeTab === 'scanner' && <UniversalQrScanner eventId={selectedEventId} />}
               {activeTab === 'history' && <ScanHistory eventId={selectedEventId} />}
               {activeTab === 'premium' && <PremiumProductsList eventId={selectedEventId} />}
             </div>

@@ -2,7 +2,7 @@
 
 import { useAuthStore } from '@/stores/auth-store';
 import Link from 'next/link';
-import { LogIn, User, ChevronDown, LogOut, LayoutGrid, QrCode, BarChartHorizontal, GlassWater, ShoppingBasket, Bell, Send, Briefcase } from 'lucide-react';
+import { LogIn, User, ChevronDown, LogOut, LayoutGrid, QrCode, BarChartHorizontal, GlassWater, ShoppingBasket, Bell, Send, Briefcase, Ticket } from 'lucide-react';
 import { UserRole } from '@/types/user.types';
 import { useEffect, useState } from 'react';
 import { useCartStore } from '@/stores/cart-store';
@@ -87,6 +87,7 @@ export function Header() {
                         <p className="text-xs text-zinc-400 truncate">{user.email}</p>
                       </div>
                       <Link href="/mi-cuenta" onClick={() => setShowUserMenu(false)} className="flex items-center gap-3 px-4 py-3 hover:bg-zinc-800"><LayoutGrid size={16} /> Mi Panel</Link>
+                      <Link href="/mi-cuenta/entradas" onClick={() => setShowUserMenu(false)} className="flex items-center gap-3 px-4 py-3 hover:bg-zinc-800 text-pink-400"><Ticket size={16} /> Mis Entradas</Link>
                       <Link href="/store" onClick={() => setShowUserMenu(false)} className="flex items-center gap-3 px-4 py-3 hover:bg-zinc-800"><ShoppingBasket size={16} /> Tienda</Link>
                       {isAdmin && (<Link href="/dashboard" onClick={() => setShowUserMenu(false)} className="flex items-center gap-3 px-4 py-3 hover:bg-zinc-800"><LayoutGrid size={16} /> Panel Admin</Link>)}
                       {isOwner && !isAdmin && (<Link href="/dashboard/owner" onClick={() => setShowUserMenu(false)} className="flex items-center gap-3 px-4 py-3 hover:bg-zinc-800"><LayoutGrid size={16} /> Panel Dueño</Link>)}
@@ -112,7 +113,7 @@ export function Header() {
 
         {/* Row 2: Navigation Menu */}
         <div className="container mx-auto px-4 pb-3">
-          <nav className="flex items-center justify-center space-x-6 text-sm font-medium text-zinc-300 overflow-x-auto no-scrollbar whitespace-nowrap py-1">
+          <nav className="flex items-center justify-start md:justify-center space-x-6 text-sm font-medium text-zinc-300 overflow-x-auto no-scrollbar whitespace-nowrap py-1 px-4">
             <Link href="/" className="hover:text-white transition-colors">Inicio</Link>
             <Link href="/eventos" className="hover:text-white transition-colors">Eventos</Link>
             <Link href="/store" className="hover:text-white transition-colors">Tienda</Link>

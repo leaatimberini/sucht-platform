@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { useAuthStore } from "@/stores/auth-store";
 import { UserProfile, LoyaltyProgressBar } from "./LoyaltyProgressBar";
-import { Award, Loader } from "lucide-react";
+import { Award, Loader, Ticket } from "lucide-react";
 import { useEffect, useState } from "react";
 import api from "@/lib/axios";
 
@@ -56,11 +56,17 @@ export function HeroContent() {
                 </p>
                 <div className="max-w-xl mx-auto">
                     <LoyaltyProgressBar user={profile} />
-                    <div className="text-center mt-6">
+                    <div className="text-center mt-6 flex flex-col sm:flex-row gap-4 justify-center">
+                        <Link href="/mi-cuenta/entradas">
+                            <span className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105 shadow-lg shadow-pink-500/20 w-full sm:w-auto justify-center">
+                                <Ticket size={18} />
+                                Ver Mis Entradas
+                            </span>
+                        </Link>
                         <Link href="/mi-cuenta/premios">
-                            <span className="inline-flex items-center gap-2 bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                            <span className="inline-flex items-center gap-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-bold py-3 px-6 rounded-lg transition-colors border border-zinc-700 w-full sm:w-auto justify-center">
                                 <Award size={18} />
-                                Ver Premios para Canjear
+                                Mis Premios
                             </span>
                         </Link>
                     </div>

@@ -91,7 +91,7 @@ export class TicketsController {
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.VERIFIER)
   redeemTicket(@Param('id') id: string, @Body() redeemTicketDto: RedeemTicketDto) {
-    return this.ticketsService.redeemTicket(id, redeemTicketDto.quantity);
+    return this.ticketsService.redeemTicket(id, redeemTicketDto.quantity, redeemTicketDto.targetEventId);
   }
 
 
