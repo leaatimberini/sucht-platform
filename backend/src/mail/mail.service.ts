@@ -106,4 +106,87 @@ export class MailService {
       `;
     return this.sendMail(to, subject, html);
   }
+
+  // ============================================
+  // 🎆 EMAIL AÑO NUEVO 2026
+  // ============================================
+  async sendNewYearGreeting(to: string, name: string) {
+    const subject = '🎉 ¡Feliz 2026 de parte de SUCHT!';
+
+    const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${subject}</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #0a0a0a; font-family: 'Arial', sans-serif;">
+  <div style="background-color: #0a0a0a; padding: 40px 10px;">
+    <div style="max-width: 500px; margin: auto; background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); border-radius: 20px; overflow: hidden; border: 1px solid #333333; box-shadow: 0 4px 30px rgba(255, 215, 0, 0.1);">
+      
+      <!-- HEADER FESTIVO -->
+      <div style="padding: 40px 30px; background: linear-gradient(135deg, #1a1a1a 0%, #2d1f00 50%, #1a1a1a 100%); text-align: center; border-bottom: 2px solid #FFD700;">
+        <div style="font-size: 40px; margin-bottom: 10px;">🎆✨🎇</div>
+        <h1 style="color: #FFD700; font-size: 36px; margin: 0; letter-spacing: 3px; text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);">SUCHT</h1>
+        <p style="color: #888888; margin: 8px 0 0 0; font-size: 14px; letter-spacing: 1px;">TE DESEA UN FELIZ</p>
+      </div>
+
+      <!-- CONTENIDO PRINCIPAL -->
+      <div style="padding: 40px 30px; text-align: center;">
+        
+        <!-- AÑO GRANDE -->
+        <div style="margin-bottom: 30px;">
+          <span style="font-size: 80px; font-weight: 800; background: linear-gradient(90deg, #FFD700, #FF69B4, #FFD700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 5px;">2026</span>
+        </div>
+        
+        <!-- MENSAJE PERSONALIZADO -->
+        <div style="background-color: rgba(255, 215, 0, 0.05); border-radius: 12px; padding: 25px; margin-bottom: 25px; border: 1px solid rgba(255, 215, 0, 0.2);">
+          <p style="color: #ffffff; font-size: 18px; margin: 0 0 15px 0;">
+            Hola <strong style="color: #FF69B4;">${name}</strong>,
+          </p>
+          <p style="color: #cccccc; font-size: 16px; line-height: 1.7; margin: 0;">
+            Desde todo el equipo de <strong style="color: #FFD700;">SUCHT</strong> queremos agradecerte por habernos acompañado durante el 2025. 
+            Cada noche que compartimos fue especial gracias a vos.
+          </p>
+        </div>
+
+        <!-- MENSAJE DESTACADO -->
+        <div style="margin: 30px 0;">
+          <p style="font-size: 22px; color: #FFD700; font-weight: 700; margin: 0; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);">
+            🥂 ¡Por más noches inolvidables juntos! 🥂
+          </p>
+        </div>
+
+        <p style="color: #999999; font-size: 15px; line-height: 1.6; margin: 0 0 30px 0;">
+          El 2026 viene cargado de sorpresas, nuevos eventos y las mejores experiencias. 
+          ¡No te pierdas nuestra primera fiesta del año!
+        </p>
+
+        <!-- BOTÓN CTA -->
+        <a href="https://sucht.com.ar/eventos" target="_blank" style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF69B4); color: #000000; padding: 16px 40px; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);">
+          🎉 Ver Eventos 2026
+        </a>
+        
+      </div>
+
+      <!-- FOOTER -->
+      <div style="padding: 30px; text-align: center; border-top: 1px solid #222; background-color: #000000;">
+        <p style="margin: 0; color: #666666; font-size: 12px; line-height: 1.6;">
+          Gracias por hacer de SUCHT una fiesta.<br>
+          <span style="color: #FF69B4;">El clásico de Castelar, desde 2010.</span>
+        </p>
+        <div style="margin-top: 15px;">
+          <a href="https://www.instagram.com/sucht.oficial" target="_blank" style="color: #888888; text-decoration: none; font-size: 12px;">📷 @sucht.oficial</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+    `;
+
+    return this.sendMail(to, subject, html);
+  }
 }
+

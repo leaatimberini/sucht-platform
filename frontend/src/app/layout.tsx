@@ -9,6 +9,7 @@ import { MercadoPagoProvider } from '@/components/mercado-pago-provider';
 import { AppInitializer } from "@/components/app-initializer";
 import { PWAInstallBanner } from '@/components/PWAInstallBanner';
 import { SubscriptionManager } from '@/components/SubscriptionManager'; // 1. Importar
+import { NewYearOverlay } from '@/components/new-year'; // 🎆 Año Nuevo 2026
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -36,12 +37,13 @@ export default function RootLayout({
         <MercadoPagoProvider>
           <Toaster position="top-center" />
           <Header />
+          <NewYearOverlay /> {/* 🎆 Efectos Año Nuevo 2026 */}
           <PWAInstallBanner />
           <main className="pt-20">{children}</main>
           {/* 2. Añadimos el gestor de suscripciones al final */}
           <SubscriptionManager />
         </MercadoPagoProvider>
-        
+
         <TrackingScripts />
       </body>
     </html>
